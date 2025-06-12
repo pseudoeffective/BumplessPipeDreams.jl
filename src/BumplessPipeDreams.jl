@@ -26,9 +26,9 @@ export
 	
 	flat_drops, all_droops, makeflat, isreduced, bpd2perm, bpd2word, dominant_part, 
 	
-	bpd2asm, asm2bpd, is_asm, draw_bpd, print_all_bpds, print_all_Kbpds, print_flat_bpds, 
+	bpd2asm, asm2bpd, is_asm, isflat, 
 	
-	_draw_bpd_plots
+	draw_bpd, print_all_bpds, print_all_Kbpds, print_flat_bpds, _draw_bpd_plots
 
 
 
