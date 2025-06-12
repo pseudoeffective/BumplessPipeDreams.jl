@@ -60,4 +60,4 @@ julia> draw_bpd(bpds[2], saveto="./assets/bpd.png", mode=:plots)
 ```
 ![bpd](https://github.com/pseudoeffective/BPDs.jl/blob/main/assets/bpd.png)
 
-
+An interactive javascript app based on the functions in this package can be found [here](https://people.math.osu.edu/anderson.2804/bpd-viz/bpd-viz.html).
