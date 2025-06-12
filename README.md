@@ -1,7 +1,7 @@
-# BPDs.jl
+# BumplessPipeDreams.jl
 *a julia package for bumpless pipe dreams*
 
-[![Build Status](https://github.com/pseudoeffective/BPDs.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/pseudoeffective/BPDs.jl/actions/workflows/CI.yml?query=branch%3Amain)
+[![Build Status](https://github.com/pseudoeffective/BumplessPipeDreams.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/pseudoeffective/BumplessPipeDreams.jl/actions/workflows/CI.yml?query=branch%3Amain)
 
 This package provides functions for working with *bumpless pipe dreams* (BPDs).  These are combinatorial gadgets which enumerate terms in [Schubert](https://en.wikipedia.org/wiki/Schubert_polynomial) and [Grothendieck polynomials](https://www.symmetricfunctions.com/grothendieck.htm), developed by [Lam-Lee-Shimozono](https://arxiv.org/abs/1806.11233).  See also [Weigandt](https://arxiv.org/abs/2003.07342).
 
@@ -12,12 +12,12 @@ To use the package, first install Julia.  If you are new to this language, I rec
 To install the BPDs package do this:
 ```julia-repl
 julia> using Pkg
-julia> Pkg.add(url="https://github.com/pseudoeffective/BPDs.jl")
+julia> Pkg.add(url="https://github.com/pseudoeffective/BumplessPipeDreams.jl")
 ```
 
 To start using the package, type
 ```julia-repl
-julia> using BPDs
+julia> using BumplessPipeDreams
 ```
 
 The package can produce nice-looking diagrams for BPDs.  For example:
@@ -58,6 +58,6 @@ When the `Plots` package is installed, another method is available for producing
 ```julia-repl
 julia> draw_bpd(bpds[2], saveto="./assets/bpd.png", mode=:plots)
 ```
-![bpd](https://github.com/pseudoeffective/BPDs.jl/blob/main/assets/bpd.png)
+![bpd](https://github.com/pseudoeffective/BumplessPipeDreams.jl/blob/main/assets/bpd.png)
 
 An interactive javascript app based on the functions in this package can be found [here](https://people.math.osu.edu/anderson.2804/bpd-viz/bpd-viz.html).

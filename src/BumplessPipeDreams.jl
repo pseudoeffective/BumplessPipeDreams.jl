@@ -1,12 +1,12 @@
 ################################################################################
-# BPDs.jl
+# BumplessPipeDreams.jl
 #
 # A Julia package for bumpless pipe dreams.
 #
 # Copyright (C) 2025 Dave Anderson, pseudoeffective.github.io
 ################################################################################
 
-module BPDs
+module BumplessPipeDreams
 
 ################################################################################
 # Import
@@ -41,4 +41,4 @@ include("droops.jl")
 include("asms.jl")
 include("draw_bpds.jl") # must be included after `bpds.jl`
 
-end # module BPDs
+end # module BumplessPipeDreams

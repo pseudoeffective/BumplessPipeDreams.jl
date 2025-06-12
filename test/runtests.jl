@@ -1,4 +1,4 @@
-using BPDs
+using BumplessPipeDreams
 using Test
 
 

@@ -9,7 +9,7 @@ module BPDsExt
 # Import
 ################################################################################
 
-using BPDs
+using BumplessPipeDreams
 
 # Plots
 import Plots:
@@ -26,7 +26,7 @@ import Plots:
 
 
 
-function BPDs._draw_bpd_plots( Bmtx::Matrix{Int8} ; 
+function BumplessPipeDreams._draw_bpd_plots( Bmtx::Matrix{Int8} ; 
                          saveto::String="none", 
                          img_size::Tuple{Int,Int}=begin
                              n, m = size(Bmtx)
@@ -74,7 +74,7 @@ end
 
 
 
-function BPDs.print_all_bpds(w::Vector{Int};filename::String,format::String)
+function BumplessPipeDreams.print_all_bpds(w::Vector{Int};filename::String,format::String)
 
   i=0
 
@@ -86,7 +86,7 @@ function BPDs.print_all_bpds(w::Vector{Int};filename::String,format::String)
 end
 
 
-function BPDs.print_flat_bpds(w::Vector{Int};filename::String,format::String)
+function BumplessPipeDreams.print_flat_bpds(w::Vector{Int};filename::String,format::String)
 
   i=0
 
@@ -98,7 +98,7 @@ function BPDs.print_flat_bpds(w::Vector{Int};filename::String,format::String)
 end
 
 
-function BPDs.print_all_Kbpds(w::Vector{Int};filename::String,format::String)
+function BumplessPipeDreams.print_all_Kbpds(w::Vector{Int};filename::String,format::String)
 
   i=0
 
