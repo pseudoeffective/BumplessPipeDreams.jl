@@ -59,5 +59,6 @@ When the `Plots` package is installed, another method is available for producing
 ```julia-repl
 julia> draw_bpd(bpds[2], saveto="./assets/bpd.png", mode=:plots)
 ```
-![bpd](https://github.com/pseudoeffective/BPDs.jl/assets/bpd.png)
+![bpd](https://github.com/pseudoeffective/BPDs.jl/blob/main/assets/bpd.png)
+
 
