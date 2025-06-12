@@ -21,8 +21,14 @@ import Printf:
 # Export
 ################################################################################
 
-export BPD, Rothe, all_bpds, all_Kbpds, flat_bpds, droop, undroop, Kdroop, unKdroop, flat_drops, all_droops, makeflat, isreduced, bpd2perm, bpd2word, dominant_part, 
- bpd2asm, asm2bpd, is_asm, draw_bpd, print_all_bpds, print_all_Kbpds, print_flat_bpds, _draw_bpd_plots
+export 
+	BPD, Rothe, all_bpds, all_Kbpds, flat_bpds, droop, undroop, Kdroop, unKdroop, 
+	
+	flat_drops, all_droops, makeflat, isreduced, bpd2perm, bpd2word, dominant_part, 
+	
+	bpd2asm, asm2bpd, is_asm, draw_bpd, print_all_bpds, print_all_Kbpds, print_flat_bpds, 
+	
+	_draw_bpd_plots
 
 
 
