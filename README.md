@@ -1,6 +1,8 @@
 # BPDs.jl
 *a julia package for bumpless pipe dreams*
 
+[![Build Status](https://github.com/pseudoeffective/BPDs.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/pseudoeffective/BPDs.jl/actions/workflows/CI.yml?query=branch%3Amain)
+
 This package provides functions for working with *bumpless pipe dreams* (BPDs).  These are combinatorial gadgets which enumerate terms in [Schubert](https://en.wikipedia.org/wiki/Schubert_polynomial) and [Grothendieck polynomials](https://www.symmetricfunctions.com/grothendieck.htm), developed by [Lam-Lee-Shimozono](https://arxiv.org/abs/1806.11233).  See also [Weigandt](https://arxiv.org/abs/2003.07342).
 
 BPDs are in bijection with [alternating sign matrices](https://en.wikipedia.org/wiki/Alternating_sign_matrix), and the package includes some methods for passing between the two.
