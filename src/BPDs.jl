@@ -37,6 +37,7 @@ export
 ################################################################################
 
 include("bumpless_pipe_dreams.jl")
+include("droops.jl")
 include("asms.jl")
 include("draw_bpds.jl") # must be included after `bpds.jl`
 
