@@ -44,15 +44,15 @@ julia> asms[3]
 """
 function bpd2asm( b::BPD )
 
-  local n=size(b.m)[1]
+  local n=size(b.mtx)[1]
 
   local a=zeros(Int8,n,n)
 
   for i=1:n
     for j=1:n
-      if b.m[i,j]==2
+      if b.mtx[i,j]==2
         a[i,j]=1
-      elseif b.m[i,j]==3
+      elseif b.mtx[i,j]==3
         a[i,j]=-1
       end
     end
