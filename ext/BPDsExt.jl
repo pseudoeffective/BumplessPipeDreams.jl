@@ -26,7 +26,7 @@ import Plots:
 
 
 
-function BumplessPipeDreams._draw_bpd_plots( Bmtx::Matrix{Int8} ; 
+function BumplessPipeDreams._draw_bpd_plots( Bmtx::Matrix{Union{Int8,Tuple}} ; 
                          saveto::String="none", 
                          img_size::Tuple{Int,Int}=begin
                              n, m = size(Bmtx)
