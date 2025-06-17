@@ -13,7 +13,7 @@ using BumplessPipeDreams
 
 # Plots
 import Plots:
-	plot, plot!, annotate!, savefig
+	plot, plot!, annotate!, savefig, text
 
 
 ################################################################################
