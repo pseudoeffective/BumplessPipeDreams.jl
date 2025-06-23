@@ -12,7 +12,7 @@ To use the package, first install Julia.  If you are new to this language, I rec
 To install the BPDs package do this:
 ```julia-repl
 julia> using Pkg
-julia> Pkg.add(BumplessPipeDreams)
+julia> Pkg.add("BumplessPipeDreams")
 ```
 
 To start using the package, type
