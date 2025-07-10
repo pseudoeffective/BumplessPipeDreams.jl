@@ -22,6 +22,7 @@
               mode::Symbol=:plots
               saveto::String="none", 
               img_size::Tuple{Int,Int}=(300,300), 
+              unit::Float64=0.7
               visible::Bool=true )
 
 Display the bumpless pipedream `b`, and optionally save it to an image file `saveto`.
@@ -30,7 +31,8 @@ Display the bumpless pipedream `b`, and optionally save it to an image file `sav
 - `b::BPD`: a BPD
 - `mode::Symbol`: either `:plots` or `:ps`, generating an image or LaTeX-compatible PSTricks commands, respectively
 - `saveto::String`: the filename, with suffix specifying format.  (E.g., .png, .pdf)  Default is "none" for no file saved.
-- `img_size`: an ordered pair specifying the image size.
+- `img_size`: an ordered pair specifying the image size (for mode=:plots).
+- `unit`: a positive number specifying the unit size (in cm) for PSTricks (for mode=:ps).
 - `visible::Bool` toggle whether the plot is displayed.  Default to `true`.
 
 ## Returns
