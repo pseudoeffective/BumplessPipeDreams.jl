@@ -257,19 +257,21 @@ end
 
 # returns flat bpd in drift class of bpd
 """
-    makeflat(bpd::BPD)
+    makeflat(bpd::BPD;skew::Bool)
 
 Return the flat BPD in the drift class of bpd
 """
-function makeflat(bpd::BPD)
-   local n=size(bpd.mtx)[1]
+function makeflat(bpd::BPD; skew::Bool=false)
+   n=size(bpd.mtx)[1]
 
    for i=2:n-1
      for j=2:n-1
-       if bpd.mtx[i,j]==0 && bpd.mtx[i-1,j]!=0 && bpd.mtx[i,j-1]!=0 && bpd.mtx[i-1,j-1]==2
-         local bpd2=droop(bpd,i-1,j-1,i,j)
-         return makeflat(bpd2)
-       end
+       if !skew || !istop(bpd,(i-1,j-1))
+         if bpd.mtx[i,j]==0 && bpd.mtx[i-1,j]!=0 && bpd.mtx[i,j-1]!=0 && bpd.mtx[i-1,j-1]==2
+           bpd2=droop(bpd,i-1,j-1,i,j)
+           return makeflat(bpd2; skew=skew)
+         end
+        end
      end
    end
 
@@ -277,25 +279,46 @@ function makeflat(bpd::BPD)
 
 end   
  
+####################
+# Pipe counting
+####################
+"""
+  countpipes( bpd::BPD, (i,j)::Tuple{Int,Int})
+
+Count the number of pipes NW of the pipe at (i,j)
+"""
+function countpipes( bpd::BPD, (i,j)::Tuple{Int,Int})
+
+  if bpd.mtx[i,j]==0 
+    return nothing 
+  end
+
+  k=1
+  for s in 1:min(i,j)-1
+     if bpd.mtx[i-s,j-s] in [2,3,4,5]
+        k+=1
+     elseif bpd.mtx[i-s,j-s]==1
+        k+=2
+     end
+  end
+  return k
+end
+
+function istop(bpd::BPD, (i,j)::Tuple{Int,Int})
+  return( countpipes(bpd,(i,j))==1 )
+end
 
 
 ####################
 # Words and permutations
 ####################
 
+
 function get_sk_from_cross( bpd::BPD, (i,j)::Tuple{Int,Int} )
 
    if bpd.mtx[i,j] != 1 return nothing end
 
-   k=1
-   for s in 1:min(i,j)-1
-      if bpd.mtx[i-s,j-s] in [2,3,4,5]
-         k+=1
-      elseif bpd.mtx[i-s,j-s]==1
-         k+=2
-      end
-   end
-   return k
+   return countpipes(i,j)
 
 end
 
@@ -375,6 +398,8 @@ end
 
 # Compute the Demazure (0-Hecke) product of a word in simple reflections
 function word2perm( wrd::Vector{Int} )
+
+  length(wrd)==0 && return [1]
 
   n = maximum(wrd)+1
 
