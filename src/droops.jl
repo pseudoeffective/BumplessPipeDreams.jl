@@ -52,11 +52,17 @@ end
 # can have 3 on SW or NE corners of rectangle.
 
 """
-    can_flat_drop(bpd::BPD,i1::Int,j1::Int,i2::Int,j2::Int)
+    can_flat_drop(bpd::BPD,i1::Int,j1::Int,i2::Int,j2::Int;skew::Bool)
 
 Check if flat drop can be done
 """
-function can_flat_drop(bpd::BPD,i1::Int,j1::Int,i2::Int,j2::Int)
+function can_flat_drop(bpd::BPD,i1::Int,j1::Int,i2::Int,j2::Int; skew::Bool=false)
+
+ # check that it is not the top pipe
+    if skew
+      istop(bpd,(i1,j1)) && return(false)
+    end
+
 
  # check bounds
     if i2<i1+1 || j2<j1+1
@@ -699,25 +705,54 @@ end
 
 
 """
-    flat_drops(bpd::BPD)
+    flat_drops(bpd::BPD; skew::Bool)
 
-Return vector of all flat drops of bpd
+Return vector of all flat drops of bpd.
+If skew==true then don't allow the top pipe to droop.
 """
-function flat_drops(bpd::BPD)
-   local n=size(bpd.mtx)[1]
+function flat_drops(bpd::BPD; skew::Bool=false)
+   n=size(bpd.mtx)[1]
 
-   local dps = BPD[]
+   dps = BPD[]
 
    for i1=1:n-1
      for j1=1:n-1
        for i2=i1+1:n
           for j2=j1+1:n
-            if can_flat_drop(bpd,i1,j1,i2,j2)
-              bpd2=makeflat(droop(bpd,i1,j1,i2,j2))
+            if can_flat_drop(bpd,i1,j1,i2,j2; skew=skew)
+              bpd2=makeflat(droop(bpd,i1,j1,i2,j2); skew=skew)
               push!(dps,bpd2)
             end
           end
        end
+     end
+   end
+
+   return(dps)
+end
+
+"""
+    top_drops(bpd::BPD)
+
+Return vector of all flat drops of bpd obtained by moving only the top pipe.
+"""
+function top_drops(bpd::BPD)
+   n=size(bpd.mtx)[1]
+
+   dps = BPD[]
+
+   for i1=1:n-1
+     for j1=1:n-1
+       if istop(bpd,(i1,j1))
+          for i2=i1+1:n
+             for j2=j1+1:n
+                 if ( (i2,j2)==(i1+1,j1+1) && can_drip(bpd,i1,j1) ) || can_flat_drop(bpd,i1,j1,i2,j2) 
+                    bpd2=makeflat(droop(bpd,i1,j1,i2,j2), skew=true)
+                    push!(dps,bpd2)
+                 end
+              end
+           end
+        end
      end
    end
 
@@ -1103,10 +1138,117 @@ function flat_bpds(w::Vector{Int})
 end
 
 
-function vec_flat_bpds(w::Vector{Int})
-    local bpd = Rothe(w)
-    iter = FlatBPDIterator(bpd)
 
-    return collect(iter)
+#############
+# iterator generating all top BPDs for w
+
+struct TopBPDIterator
+    stack::Vector{Any}
+    seen::Set{Matrix}
 end
 
+function TopBPDIterator(bpd::BPD)
+    # initialize with the first element
+    seen = Set([makeflat(bpd,skew=true).mtx])
+    drops = top_drops(makeflat(bpd,skew=true))
+    stack = [(makeflat(bpd,skew=true), drops)]
+    return TopBPDIterator(stack,seen)
+end
+
+Base.eltype(::Type{TopBPDIterator}) = BPD
+
+Base.IteratorSize(::Type{<:TopBPDIterator}) = Base.SizeUnknown()
+
+
+function Base.iterate(iter::TopBPDIterator, state=nothing)
+
+    while !isempty(iter.stack)
+        current, drops = pop!(iter.stack)
+
+        unseen_drops = filter( b -> !(makeflat(b,skew=true).mtx in iter.seen), drops )
+
+        for b in unseen_drops
+          b=makeflat(b,skew=true)
+          push!(iter.seen, b.mtx)  # mark new drop as seen
+          push!( iter.stack, (b, top_drops(b)) )
+        end
+
+        return( makeflat(current,skew=true), isempty(iter.stack) ? nothing : iter.stack[end] )
+    end
+
+    return nothing  # end of iteration
+end
+
+"""
+    top_bpds(w)
+
+An iterator generating all top reduced BPDs for a permutation `w`
+
+## Argument
+`w::Vector{Int}`: a permutation
+
+## Returns
+`TopBPDIterator`: an iterator type generating all top reduced BPDs for `w`.
+
+## Examples
+```julia-repl
+# Define the iterator
+julia> w = [3,1,5,2,4];
+
+julia> tbps = top_bpds(w);
+
+# Run a loop over the iterator
+
+julia> i=0; for b in tbps i+=1 end; i
+5
+
+# To reset the iterator, define it again
+
+julia> tbps = top_bpds(w);
+
+# Form a vector of top BPDs for w
+
+julia> collect(tbps)
+5-element Vector{BPD}:
+                                         
+□ □ ╭─────
+╭───┼─────
+│ □ │ □ ╭─
+│ ╭─┼───┼─
+│ │ │ ╭─┼─
+
+                
+□ □ ╭─────
+□ ╭─┼─────
+╭─╯ │ □ ╭─
+│ ╭─┼───┼─
+│ │ │ ╭─┼─
+
+                
+□ □ ╭─────
+□ □ │ ╭───
+╭───┼─╯ ╭─
+│ ╭─┼───┼─
+│ │ │ ╭─┼─
+
+                
+□ □ □ ╭───
+□ ╭───┼───
+╭─╯ ╭─╯ ╭─
+│ ╭─┼───┼─
+│ │ │ ╭─┼─
+
+                
+□ □ □ ╭───
+╭─────┼───
+│ □ ╭─╯ ╭─
+│ ╭─┼───┼─
+│ │ │ ╭─┼─
+```
+"""
+function top_bpds(w::Vector{Int})
+    local bpd = Rothe(w)
+    iter = TopBPDIterator(bpd)
+
+    return iter
+end
