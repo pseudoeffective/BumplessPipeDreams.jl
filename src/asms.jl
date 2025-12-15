@@ -179,7 +179,7 @@ end
 """
     is_asm(mtx::Matrix{<:Integer})
 
-Check if a matrix is a (partial) ASM
+Check if a matrix is a partial ASM, i.e., a NW submatrix of an ASM
 """
 function is_asm(mtx::Matrix{<:Integer})
     n,m=size(mtx)
