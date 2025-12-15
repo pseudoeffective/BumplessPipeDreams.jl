@@ -257,21 +257,19 @@ end
 
 # returns flat bpd in drift class of bpd
 """
-    makeflat(bpd::BPD;skew::Bool)
+    makeflat(bpd::BPD)
 
 Return the flat BPD in the drift class of bpd
 """
-function makeflat(bpd::BPD; skew::Bool=false)
+function makeflat(bpd::BPD)
    n=size(bpd.mtx)[1]
 
    for i=2:n-1
      for j=2:n-1
-       if !skew || !istop(bpd,(i-1,j-1))
          if bpd.mtx[i,j]==0 && bpd.mtx[i-1,j]!=0 && bpd.mtx[i,j-1]!=0 && bpd.mtx[i-1,j-1]==2
            bpd2=droop(bpd,i-1,j-1,i,j)
-           return makeflat(bpd2; skew=skew)
+           return makeflat(bpd2)
          end
-        end
      end
    end
 
@@ -302,10 +300,6 @@ function countpipes( bpd::BPD, (i,j)::Tuple{Int,Int})
      end
   end
   return k
-end
-
-function istop(bpd::BPD, (i,j)::Tuple{Int,Int})
-  return( countpipes(bpd,(i,j))==1 )
 end
 
 

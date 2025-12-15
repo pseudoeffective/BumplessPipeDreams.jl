@@ -22,9 +22,9 @@ import Printf:
 ################################################################################
 
 export 
-	BPD, Rothe, all_bpds, all_Kbpds, flat_bpds, top_bpds, 
+	BPD, Rothe, all_bpds, all_Kbpds, flat_bpds, 
 	
-	droop, undroop, Kdroop, unKdroop, flat_drops, top_drops, all_droops, 
+	droop, undroop, Kdroop, unKdroop, flat_drops, all_droops, 
 	
 	makeflat, isreduced, is_asm, isflat, 
 	
